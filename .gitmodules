@@ -1,0 +1,3 @@
+[submodule "maily-app-server"]
+	path = maily-app-server
+	url = https://github.com/HugoVP/maily-app-server.git

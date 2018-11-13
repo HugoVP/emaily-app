@@ -1,0 +1,28 @@
+version: '3'
+services:
+  api:
+    restart: on-failure
+    build:
+      context: ./server
+      dockerfile: dev.dockerfile
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
+    volumes:
+      - /app/.git
+      - /app/node_modules
+      - ./server:/app
+    env_file: .env.development
+    command: |
+      sh -c
+        "chmod +x wait-for.sh;
+        ./wait-for.sh db:27017 --
+          npm run start-dev"
+  db:
+    restart: always
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - $HOME/dbdata:/data/db
