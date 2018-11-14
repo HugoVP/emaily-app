@@ -3,7 +3,7 @@ services:
   api:
     restart: on-failure
     build:
-      context: ./maily-app-server
+      context: ./emaily-app-server
       dockerfile: dev.dockerfile
     depends_on:
       - db
@@ -12,7 +12,7 @@ services:
     volumes:
       - /app/.git
       - /app/node_modules
-      - ./maily-app-server:/app
+      - ./emaily-app-server:/app
     env_file: .env.development
     command: |
       sh -c
