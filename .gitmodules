@@ -1,3 +1,6 @@
 [submodule "emaily-app-server"]
 	path = emaily-app-server
 	url = https://github.com/HugoVP/emaily-app-server.git
+[submodule "emaily-app-client"]
+	path = emaily-app-client
+	url = https://github.com/HugoVP/emaily-app-client.git
