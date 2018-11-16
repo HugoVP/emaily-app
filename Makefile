@@ -8,8 +8,8 @@ dev-d:
 
 .PHONY: api
 api: dev-d
-	docker-compose logs -f api
+	docker-compose -f docker-compose.dev.yml logs -f api
 
 .PHONY: client
 client: dev-d
-	docker-compose logs -f client
+	docker-compose -f docker-compose.dev.yml logs -f client
