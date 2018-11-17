@@ -30,7 +30,8 @@ services:
       - /app/.git
       - /app/node_modules
       - ./emaily-app-server:/app
-    env_file: ./emaily-app-server/.env.development
+    env_file:
+      - ./emaily-app-server/.env.development
     command: |
       sh -c 
         "./wait-for.sh db:27017 -- npm run start-dev"
