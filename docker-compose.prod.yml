@@ -1,20 +1,16 @@
 version: '3'
 services:
-  nginx:
-    restart: always
-    build:
-      context: ./emaily-app-nginx
-      dockerfile: dev.dockerfile
-    ports:
-      - 8888:80
-    command: |
-      sh -c
-        "./wait-for.sh client:3000 api:5000 -- nginx -g \"daemon off;\""
   client:
     restart: on-failure
     build:
       context: ./emaily-app-client
       dockerfile: dockerfile
+    depends_on:
+      - api
+    ports:
+      - 8888:8888
+    env_file:
+      - ./emaily-app-client/.env.production
   api:
     restart: on-failure
     build:
