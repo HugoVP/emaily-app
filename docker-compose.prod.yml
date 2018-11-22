@@ -3,18 +3,18 @@ services:
   client:
     restart: on-failure
     build:
-      context: ./emaily-app-client
+      context: ./client
       dockerfile: dockerfile
     depends_on:
       - api
     ports:
       - 8888:8888
     env_file:
-      - ./emaily-app-client/.env.production
+      - ./client/.env.production
   api:
     restart: on-failure
     build:
-      context: ./emaily-app-server
+      context: ./api
       dockerfile: dockerfile
     env_file:
-      - ./emaily-app-server/.env.production
+      - ./api/.env.production

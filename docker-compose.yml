@@ -1,9 +1,9 @@
 version: '3'
 services:
-  nginx:
+  proxy:
     restart: always
     build:
-      context: ./emaily-app-nginx
+      context: ./proxy
       dockerfile: dev.dockerfile
     ports:
       - 8080:80
@@ -13,25 +13,23 @@ services:
   client:
     restart: on-failure
     build:
-      context: ./emaily-app-client
+      context: ./client
       dockerfile: dev.dockerfile
     volumes:
-      - /app/.git
       - /app/node_modules
-      - ./emaily-app-client:/app
+      - ./client:/app
   api:
     restart: on-failure
     build:
-      context: ./emaily-app-server
+      context: ./api
       dockerfile: dev.dockerfile
     depends_on:
       - db
     volumes:
-      - /app/.git
       - /app/node_modules
-      - ./emaily-app-server:/app
+      - ./api:/app
     env_file:
-      - ./emaily-app-server/.env.development
+      - ./api/.env.development
     command: |
       sh -c 
         "./wait-for.sh db:27017 -- npm run start-dev"
@@ -41,4 +39,4 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./emaily-app-db/dbdata:/data/db
+      - ./db/dbdata:/data/db
