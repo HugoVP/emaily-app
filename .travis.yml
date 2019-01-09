@@ -1,17 +1,18 @@
 sudo: required
-services:
-  - docker
 jobs:
   include:
     - stage: docker images
+      services:
+        - docker
       script:
         - docker build -t hugovp/emaily-app-client client
         - docker build -t hugovp/emaily-app-api api
         - echo $DOCKER_PASSWORD | docker login --username=$DOCKER_ID --password-stdin
         - docker push hugovp/emaily-app-client
         - docker push hugovp/emaily-app-api
-    - stage: client
-      before_install:
+    - stage: client deployment
+      script: skip
+      before_deploy:
         - cd client
       deploy: &heroku
         provider: heroku
@@ -19,8 +20,9 @@ jobs:
         api_key: $HEROKU_API_KEY
         on:
           branch: master
-    - stage: api
-      before_install:
+    - stage: api deployment
+      script: skip
+      before_deploy:
         - cd api
       deploy:
         <<: *heroku
