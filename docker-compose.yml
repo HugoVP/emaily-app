@@ -3,8 +3,11 @@ services:
   proxy:
     restart: always
     build:
-      context: ./proxy
-      dockerfile: dev.dockerfile
+      context: proxy
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - client
+      - api
     ports:
       - 8080:80
     command: |
@@ -13,16 +16,18 @@ services:
   client:
     restart: on-failure
     build:
-      context: ./client
-      dockerfile: dev.dockerfile
+      context: client
+      dockerfile: Dockerfile.dev
     volumes:
       - /app/node_modules
       - ./client:/app
+    env_file: 
+      - client/.env.development
   api:
     restart: on-failure
     build:
       context: ./api
-      dockerfile: dev.dockerfile
+      dockerfile: Dockerfile.dev
     depends_on:
       - db
     volumes:

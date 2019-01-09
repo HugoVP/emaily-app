@@ -1,0 +1,27 @@
+sudo: required
+services:
+  - docker
+jobs:
+  include:
+    - stage: docker images
+      script:
+        - docker build -t hugovp/emaily-app-client client
+        - docker build -t hugovp/emaily-app-api api
+        - echo $DOCKER_PASSWORD | docker login --username=$DOCKER_ID --password-stdin
+        - docker push hugovp/emaily-app-client
+        - docker push hugovp/emaily-app-api
+    - stage: client
+      before_install:
+        - cd client
+      deploy: &heroku
+        provider: heroku
+        app: $HEROKU_CLIENT_APP_NAME
+        api_key: $HEROKU_API_KEY
+        on:
+          branch: master
+    - stage: api
+      before_install:
+        - cd api
+      deploy:
+        <<: *heroku
+        app: $HEROKU_API_APP_NAME

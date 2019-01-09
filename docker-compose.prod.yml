@@ -3,18 +3,16 @@ services:
   client:
     restart: on-failure
     build:
-      context: ./client
-      dockerfile: dockerfile
+      context: client
     depends_on:
       - api
     ports:
       - 8888:8888
     env_file:
-      - ./client/.env.production
+      - client/.env.production
   api:
     restart: on-failure
     build:
       context: ./api
-      dockerfile: dockerfile
     env_file:
-      - ./api/.env.production
+      - api/.env.production
